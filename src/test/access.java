@@ -4,6 +4,9 @@ package test;
 
 import java.io.*;
 
+import com.itextpdf.text.*;  
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfWriter;  
 
 
 public class access {
@@ -91,32 +94,41 @@ public class access {
    	 }
    	
    	public static void export(File file){
-   		try
+   		
+  try
    		 {
-   			FileWriter filewriter = new FileWriter(file);
-   		 filewriter.write("      ID       深度       段长    "
-   	   		+ "    井斜        方位        高边      "
-   	   		+ " 南北偏移         东西偏移        水平偏移         闭合方位        投影位移          垂深     \r\n");
+	      BaseFont bfChinese=BaseFont.createFont("C:/WINDOWS/Fonts/SIMSUN.TTC,1",BaseFont.IDENTITY_H,BaseFont.NOT_EMBEDDED);
+	      Font FontChinese = new Font(bfChinese, 9, Font.NORMAL); 
+	      Font title = new Font(bfChinese, 12, Font.BOLD); 
+   			Document pdfDoc = new Document();
+   			FileOutputStream filewriter = new FileOutputStream(file);
+   			PdfWriter.getInstance(pdfDoc, filewriter);  
+   			pdfDoc.open();
+   			pdfDoc.add(new Paragraph("                              陀螺测斜数据处理报告               \n\r",title));
+   			Paragraph paragraph = new Paragraph("   ID    深度    段长   "
+   	   		+ " 井斜     方位     高边   "
+   	   		+ " 南北偏移  东西偏移  水平偏移  闭合方位 投影位移    垂深     \n",FontChinese);
+   			pdfDoc.add(paragraph);
    		  for (int i =1; i <= access.length; i++) 
    		   {
-                 filewriter.write("      "
-   				       +display.df1.format(access.data[i].id)+"       "
-   		               +display.df2.format(access.data[i].shendu)+"       "
-   			           +display.df2.format(access.data[i].duanchang)+"       "
-   			           +display.df3.format(access.data[i].jingxie)+"       "
-   			           +display.df4.format(access.data[i].fangwei)+"       "
-   			           +display.df4.format(access.data[i].gaobian)+"       "
-   			           +display.df3.format(access.data[i].nanbeipianyi)+"           "
-   			           +display.df5.format(access.data[i].dongxipianyi)+"           "
-   			           +display.df5.format(access.data[i].shuipingpianyi)+"           "
-   			           +display.df4.format(access.data[i].bihefangwei)+"           "
-   			           +display.df3.format(access.data[i].touyingweiyi)+"           "
-   			           +display.df6.format(access.data[i].chuishen)+" "+"\r\n");
-   	       filewriter.flush();
+   			paragraph = new Paragraph("   "
+   				       +display.df1.format(access.data[i].id)+"    "
+   		               +display.df2.format(access.data[i].shendu)+"    "
+   			           +display.df2.format(access.data[i].duanchang)+"    "
+   			           +display.df3.format(access.data[i].jingxie)+"    "
+   			           +display.df4.format(access.data[i].fangwei)+"    "
+   			           +display.df4.format(access.data[i].gaobian)+"    "
+   			           +display.df3.format(access.data[i].nanbeipianyi)+"    "
+   			           +display.df5.format(access.data[i].dongxipianyi)+"    "
+   			           +display.df5.format(access.data[i].shuipingpianyi)+"    "
+   			           +display.df4.format(access.data[i].bihefangwei)+"    "
+   			           +display.df3.format(access.data[i].touyingweiyi)+"    "
+   			           +display.df6.format(access.data[i].chuishen)+" "+"\r\n",FontChinese);
+   			pdfDoc.add(paragraph);
    	        }
-   		   filewriter.close();
+   		pdfDoc.close();  
    		  }
-   		  catch(IOException ex){
+   		  catch(Exception ex){
    			 ex.printStackTrace();
    		   }
    		

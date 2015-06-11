@@ -45,7 +45,7 @@ public class guitest {
 		select.addActionListener(new selectlistener());
 		refresh.addActionListener(new refreshlistener());
 	
-		
+	
 		panel0.add(new JLabel("  "));
 		panel0.add(new JLabel("  "));
 		panel0.add(new JLabel("  "));
@@ -169,6 +169,9 @@ public class guitest {
 			if (filePath==null)
 				return;
 			String name=filePath.getAbsolutePath();
+			if (name.endsWith(".txt"))
+				;
+			else
 			filePath=new File(name+".txt");
 		    access.save(filePath);
 			
@@ -177,13 +180,16 @@ public class guitest {
 	public static class saveresultlistener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			JFileChooser filesave= new JFileChooser();
-			filesave.setFileFilter(txtfilter);
+			filesave.setFileFilter(pdffilter);
 			filesave.showSaveDialog(frame);
 			File filePath =filesave.getSelectedFile();
 			if (filePath==null)
 				return;
 			String name=filePath.getAbsolutePath();
-			filePath=new File(name+".txt");
+			if (name.endsWith(".pdf"))
+				;
+			else
+			filePath=new File(name+".pdf");
 			access.export(filePath);
 		}
 	}
@@ -213,6 +219,9 @@ public class guitest {
 			if (filePath==null)
 				return;
 			String name=filePath.getAbsolutePath();
+			if (name.endsWith(".ser"))
+				;
+			else
 			filePath=new File(name+".ser");
 			access.serialout(filePath);
 		}
@@ -232,6 +241,7 @@ public class guitest {
 	}
 	private static FileNameExtensionFilter txtfilter =new FileNameExtensionFilter("txt文本","txt");
 	private static FileNameExtensionFilter serfilter =new FileNameExtensionFilter("ser序列化文件","ser");
+	private static FileNameExtensionFilter pdffilter =new FileNameExtensionFilter("PDF文档","pdf");
 	
 		
 	
