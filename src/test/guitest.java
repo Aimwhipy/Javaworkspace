@@ -4,8 +4,10 @@ import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.filechooser.*;
-
+import java.awt.print.*;
 import java.awt.event.*;
+import java.awt.print.Printable;
+import java.awt.print.PrinterJob;
 import java.io.File;
 
 
@@ -18,8 +20,10 @@ public class guitest {
 	static JScrollPane scrollPane1 = new JScrollPane(textArea1);
 	
 	
-	public  static void  main(String[] args) {
+	public  static void  main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		
+		
+		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(850, 700);
 		textArea0.setLineWrap(true);
@@ -31,6 +35,7 @@ public class guitest {
 		panel1.setBorder(BorderFactory.createTitledBorder("存取控制"));
 		panel2.setBorder(BorderFactory.createTitledBorder("数据显示"));
 		panel0.setLayout(new BoxLayout(panel0,BoxLayout.Y_AXIS));
+		panel1.setLayout(new BoxLayout(panel1,BoxLayout.X_AXIS));
 		panel2.setLayout(new BoxLayout(panel2,BoxLayout.Y_AXIS));
         
 		
@@ -44,54 +49,51 @@ public class guitest {
 		modify.addActionListener(new modifylistener());
 		select.addActionListener(new selectlistener());
 		refresh.addActionListener(new refreshlistener());
+		
+		Box hbox=Box.createHorizontalBox();
+		Box vbox=Box.createVerticalBox();
+		 
+	    
+		panel0.add(vbox);
+		vbox.add(Box.createVerticalGlue());
+		vbox.add(insert);
+		vbox.add(Box.createVerticalGlue());
+		vbox.add(delete);
+		vbox.add(Box.createVerticalGlue());
+		vbox.add(modify);
+		vbox.add(Box.createVerticalGlue());
+		vbox.add(select);
+		vbox.add(Box.createVerticalGlue());
 	
-	
-		panel0.add(new JLabel("  "));
-		panel0.add(new JLabel("  "));
-		panel0.add(new JLabel("  "));
-		panel0.add(insert);
-		panel0.add(new JLabel("  "));
-		panel0.add(new JLabel("  "));
-		panel0.add(new JLabel("  "));
-		panel0.add(new JLabel("  "));
-		panel0.add(delete);
-		panel0.add(new JLabel("  "));
-		panel0.add(new JLabel("  "));
-		panel0.add(new JLabel("  "));
-		panel0.add(new JLabel("  "));
-		panel0.add(modify);
-		panel0.add(new JLabel("  "));
-		panel0.add(new JLabel("  "));
-		panel0.add(new JLabel("  "));
-		panel0.add(new JLabel("  "));
-		panel0.add(select);
-		panel0.add(new JLabel("  "));
-		panel0.add(new JLabel("  "));
-		panel0.add(new JLabel("  "));
-		panel0.add(new JLabel("  "));
-		panel0.add(refresh);
 		
 		JButton savesource = new JButton("储存数据");
-		JButton saveresult = new JButton("输出结果数据");
+		JButton saveresult = new JButton("输出处理报告");
 		JButton loadsource = new JButton("读取数据");
 		JButton serialout = new JButton("序列化输出");
 		JButton serialin = new JButton("序列化输入");
+		JButton print = new JButton("打印");
 		savesource.addActionListener(new savesourcelistener());
 		saveresult.addActionListener(new saveresultlistener());
 		loadsource.addActionListener(new loadsourcelistener());
 		serialout.addActionListener(new serialoutlistener());
 		serialin.addActionListener(new serialinlistener());
+		print.addActionListener(new printlistener());
 		
 		
-		panel1.add(savesource);
-		panel1.add(new JLabel("                    "));
-		panel1.add(saveresult);
-		panel1.add(new JLabel("                     "));
-		panel1.add(loadsource);
-		panel1.add(new JLabel("                     "));
-		panel1.add(serialout);
-		panel1.add(new JLabel("                     "));
-		panel1.add(serialin);
+		hbox.add(Box.createHorizontalGlue());
+		hbox.add(savesource);
+		hbox.add(Box.createHorizontalGlue());
+		hbox.add(saveresult);
+		hbox.add(Box.createHorizontalGlue());
+	    hbox.add(loadsource);
+	    hbox.add(Box.createHorizontalGlue());
+		hbox.add(serialout);
+		hbox.add(Box.createHorizontalGlue());
+		hbox.add(serialin);
+		hbox.add(Box.createHorizontalGlue());
+		hbox.add(print);
+		hbox.add(Box.createHorizontalGlue());
+		panel1.add(hbox);
 		
 		
 		JLabel label0=new JLabel("原始数据");
@@ -146,7 +148,10 @@ public class guitest {
    
 	public static class selectlistener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
-		       
+			process.query();
+			
+			
+			
 		}
 	}
 
@@ -239,6 +244,51 @@ public class guitest {
 			display.result();
 		}
 	}
+	
+	
+	
+	public static class printlistener implements ActionListener{
+		public void actionPerformed(ActionEvent ev){
+		      try{
+		    	PrinterJob job=PrinterJob.getPrinterJob();
+		       
+		       boolean ok=job.printDialog();
+		       if(!ok)
+		    	   return;
+		       job.setPrintable(new Printable(){
+		    	   private final int WIDTH=130;
+		    	   private final int HEIGHT=130;
+		    	   public int print(Graphics graphics,PageFormat pageFormat,int pageIndex) {
+		    		   if (pageIndex>0)
+		    			   return Printable.NO_SUCH_PAGE;
+		    		   int x=(int)pageFormat.getImageableX();
+		    		   int y=(int)pageFormat.getImageableY();
+		    		
+		    		   Graphics2D g2=(Graphics2D)graphics;
+		    		   g2.setStroke(new BasicStroke(4.0F));
+		    		   g2.setColor(Color.BLUE);
+		    		   g2.drawOval(x+10,y+10,WIDTH,HEIGHT);
+		    		   return Printable.PAGE_EXISTS;
+		    	   }
+		       });
+		       
+		    	 job.print();
+		    	   
+		       }
+		    	   
+		    	   
+		       
+		       
+		       
+		       catch (Exception e){
+		    	   e.printStackTrace();
+		       }
+		}
+	}
+	
+	
+	
+	
 	private static FileNameExtensionFilter txtfilter =new FileNameExtensionFilter("txt文本","txt");
 	private static FileNameExtensionFilter serfilter =new FileNameExtensionFilter("ser序列化文件","ser");
 	private static FileNameExtensionFilter pdffilter =new FileNameExtensionFilter("PDF文档","pdf");
