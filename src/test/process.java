@@ -78,6 +78,8 @@ public class process {
 		iframe.getContentPane().add(ipanel0, BorderLayout.NORTH);
 		iframe.getContentPane().add(ipanel1, BorderLayout.SOUTH);
 		iframe.setVisible(true);	
+		
+		
 	}
 	public static void delete(){
 		
@@ -146,7 +148,9 @@ public class process {
 		JLabel chuishen = new JLabel("垂深");
 		JLabel id = new JLabel("ID");
         JButton sure =new JButton("确认查询");
+        JButton refresh =new JButton("数据概览");
 		sure.addActionListener(new querylistener());
+		refresh.addActionListener(new refreshlistener());
 		
 		qpanel0.removeAll();
 		qresult.removeAll();
@@ -176,7 +180,6 @@ public class process {
 		qpanel00.add(nanbeipianyi);
 		qpanel00.add(qnanbeipianyi0);
 		qpanel00.add(Box.createHorizontalStrut(15));
-		qpanel01.add(Box.createHorizontalStrut(15));
 		qpanel01.add(dongxipianyi);
 		qpanel01.add(qdongxipianyi0);
 		qpanel01.add(Box.createHorizontalStrut(15));
@@ -193,6 +196,8 @@ public class process {
 		qpanel01.add(qchuishen0);
 		qpanel01.add(Box.createHorizontalStrut(15));
 		qpanel01.add(sure);
+		
+		qpanel01.add(refresh);
 		qpanel01.add(Box.createHorizontalStrut(15));
 		qpanel0.add(qpanel00);
 		qpanel0.add(qpanel01);
@@ -202,6 +207,9 @@ public class process {
 		qframe.getContentPane().add(qpanel0, BorderLayout.NORTH);
 		qframe.getContentPane().add(qpanel1, BorderLayout.CENTER);
 		qframe.setVisible(true);	
+		
+		
+		
 	}
 	
 	
@@ -290,8 +298,8 @@ public class process {
 			if("".equals(qjingxie0.getText().trim())==false){
 			jingxie=Float.parseFloat(qjingxie0.getText());
 			qjingxie= true;}
-			if("".equals(qjingxie0.getText().trim())==false){
-			fangwei=Float.parseFloat(qjingxie0.getText());
+			if("".equals(qfangwei0.getText().trim())==false){
+			fangwei=Float.parseFloat(qfangwei0.getText());
 			qfangwei= true;}
 			if("".equals(qgaobian0.getText().trim())==false){
 			gaobian=Float.parseFloat(qgaobian0.getText());
@@ -321,9 +329,12 @@ public class process {
 			int n;
             int tlength=0;
 			for(n=1;n<=access.length;n++)
-			{if((access.data[n].id==id||(qid==false))&&(access.data[n].shendu==shendu||(qshendu==false))
-			  &&(access.data[n].jingxie==jingxie||(qjingxie==false))&&(access.data[n].fangwei==fangwei||(qfangwei==false))
-			  &&(access.data[n].gaobian==gaobian||(qgaobian==false))&&(access.data[n].duanchang==duanchang||(qduanchang==false))
+			{if((access.data[n].id==id||(qid==false))
+			  &&(access.data[n].shendu==shendu||(qshendu==false))
+			  &&(access.data[n].jingxie==jingxie||(qjingxie==false))
+			  &&(access.data[n].fangwei==fangwei||(qfangwei==false))
+			  &&(access.data[n].gaobian==gaobian||(qgaobian==false))
+			  &&(access.data[n].duanchang==duanchang||(qduanchang==false))
 			  &&(access.data[n].nanbeipianyi==nanbeipianyi||(qnanbeipianyi==false))
 			  &&(access.data[n].dongxipianyi==dongxipianyi||(qdongxipianyi==false))
 			  &&(access.data[n].shuipingpianyi==shuipingpianyi||(qshuipingpianyi==false))
@@ -334,23 +345,23 @@ public class process {
 			 tlength++;	}
 			}
 			if (tlength>0)
-			{qresult.setText("      ID        深度         段长    "
-			   		+ "    井斜          方位        高边      "
-			   		+ " 南北偏移         东西偏移       水平偏移       闭合方位      投影位移        垂深     \n");
+			{qresult.setText("   ID    深度     段长   "
+		   	   		+ " 井斜     方位      高边   "
+		   	   		+ " 南北偏移  东西偏移   水平偏移  闭合方位  投影位移     垂深     \n");
 				for(n=1;n<=tlength;n++)
-				{qresult.append("      "
-				       +display.df1.format(temp[n].id)+"       "
-		               +display.df2.format(temp[n].shendu)+"       "
-			           +display.df2.format(temp[n].duanchang)+"       "
-			           +display.df3.format(temp[n].jingxie)+"       "
-			           +display.df4.format(temp[n].fangwei)+"       "
-			           +display.df4.format(temp[n].gaobian)+"       "
-			           +display.df3.format(temp[n].nanbeipianyi)+"           "
-			           +display.df5.format(temp[n].dongxipianyi)+"           "
-			           +display.df5.format(temp[n].shuipingpianyi)+"           "
-			           +display.df4.format(temp[n].bihefangwei)+"           "
-			           +display.df3.format(temp[n].touyingweiyi)+"           "
-			           +display.df6.format(temp[n].chuishen)+" "+"\n");	
+				{qresult.append("   "
+	   				       +display.df1.format(temp[n].id)+"    "
+	   		               +display.df2.format(temp[n].shendu)+"    "
+	   			           +display.df2.format(temp[n].duanchang)+"    "
+	   			           +display.df3.format(temp[n].jingxie)+"    "
+	   			           +display.df4.format(temp[n].fangwei)+"    "
+	   			           +display.df4.format(temp[n].gaobian)+"    "
+	   			           +display.df3.format(temp[n].nanbeipianyi)+"    "
+	   			           +display.df5.format(temp[n].dongxipianyi)+"    "
+	   			           +display.df5.format(temp[n].shuipingpianyi)+"    "
+	   			           +display.df4.format(temp[n].bihefangwei)+"    "
+	   			           +display.df3.format(temp[n].touyingweiyi)+"    "
+	   			           +display.df6.format(temp[n].chuishen)+" "+"\r\n");	
 				}
 			}
 				else 
@@ -361,5 +372,35 @@ public class process {
 			
 		}
 	}
-	
+	public static class refreshlistener implements ActionListener{
+		public void actionPerformed(ActionEvent ev){
+			
+			if (access.length>1)
+			{qresult.setText("   ID    深度     段长   "
+		   	   		+ " 井斜     方位      高边   "
+		   	   		+ " 南北偏移  东西偏移   水平偏移  闭合方位  投影位移     垂深     \n");
+				for(int n=1;n<=access.length;n++)
+				{qresult.append("   "
+	   				       +display.df1.format(access.data[n].id)+"    "
+	   		               +display.df2.format(access.data[n].shendu)+"    "
+	   			           +display.df2.format(access.data[n].duanchang)+"    "
+	   			           +display.df3.format(access.data[n].jingxie)+"    "
+	   			           +display.df4.format(access.data[n].fangwei)+"    "
+	   			           +display.df4.format(access.data[n].gaobian)+"    "
+	   			           +display.df3.format(access.data[n].nanbeipianyi)+"    "
+	   			           +display.df5.format(access.data[n].dongxipianyi)+"    "
+	   			           +display.df5.format(access.data[n].shuipingpianyi)+"    "
+	   			           +display.df4.format(access.data[n].bihefangwei)+"    "
+	   			           +display.df3.format(access.data[n].touyingweiyi)+"    "
+	   			           +display.df6.format(access.data[n].chuishen)+" "+"\r\n");	
+				}
+			}
+				else 
+				{qresult.setText("            没有找到符合条件的结果！");}
+			
+			
+			
+			
+		}
+	}
 }

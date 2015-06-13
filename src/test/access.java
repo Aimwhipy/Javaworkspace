@@ -3,6 +3,7 @@ package test;
 
 
 import java.io.*;
+import java.math.BigDecimal;
 
 import com.itextpdf.text.*;  
 import com.itextpdf.text.pdf.BaseFont;
@@ -57,7 +58,19 @@ public class access {
      
     }
      
-
+     public  static void format(sourcedata[] test){
+    	for (int i=1;i<=length;i++)
+    	{test[i].jingxie=(new BigDecimal(test[i].jingxie)).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
+    	 test[i].fangwei=(new BigDecimal(test[i].fangwei)).setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
+    	 test[i].gaobian=(new BigDecimal(test[i].gaobian)).setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
+    	 test[i].nanbeipianyi=(new BigDecimal(test[i].nanbeipianyi)).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
+    	 test[i].dongxipianyi=(new BigDecimal(test[i].dongxipianyi)).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
+    	 test[i].shuipingpianyi=(new BigDecimal(test[i].shuipingpianyi)).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
+    	 test[i].bihefangwei=(new BigDecimal(test[i].bihefangwei)).setScale(1, BigDecimal.ROUND_HALF_UP).floatValue();
+    	 test[i].touyingweiyi=(new BigDecimal(test[i].touyingweiyi)).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
+    	 test[i].chuishen=(new BigDecimal(test[i].chuishen)).setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
+    	}	
+    }
      
     public  static void sort(sourcedata[] test){
         sourcedata temp=new sourcedata();

@@ -85,12 +85,8 @@ public class caculate {
 			}
 			if (dog_angle>max_dog)
 				max_dog = dog_angle;
-		    
-			
-		
-		
 		}
-		
+	access.format(access.data);	
 
 }
 		

@@ -2,8 +2,10 @@ package test;
 
 import java.awt.*;
 
+
 import javax.swing.*;
 import javax.swing.filechooser.*;
+
 import java.awt.print.*;
 import java.awt.event.*;
 import java.awt.print.Printable;
@@ -39,7 +41,7 @@ public class guitest {
 		panel2.setLayout(new BoxLayout(panel2,BoxLayout.Y_AXIS));
         
 		
-		JButton insert = new JButton("增加");
+		JButton insert = new JButton("增加 ");
 		JButton delete = new JButton("删除");
 		JButton modify = new JButton("更改");
 		JButton select = new JButton("查询");
@@ -169,7 +171,8 @@ public class guitest {
 		public void actionPerformed(ActionEvent ev){
 			JFileChooser filesave= new JFileChooser();
 			filesave.setFileFilter(txtfilter);
-			filesave.showSaveDialog(frame);
+			int i=filesave.showSaveDialog(frame);
+			if (i==JFileChooser.APPROVE_OPTION){
 			File filePath =filesave.getSelectedFile();
 			if (filePath==null)
 				return;
@@ -179,14 +182,15 @@ public class guitest {
 			else
 			filePath=new File(name+".txt");
 		    access.save(filePath);
-			
+			}
 		}
 	}
 	public static class saveresultlistener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			JFileChooser filesave= new JFileChooser();
 			filesave.setFileFilter(pdffilter);
-			filesave.showSaveDialog(frame);
+			int i=filesave.showSaveDialog(frame);
+			if (i==JFileChooser.APPROVE_OPTION){
 			File filePath =filesave.getSelectedFile();
 			if (filePath==null)
 				return;
@@ -198,12 +202,13 @@ public class guitest {
 			access.export(filePath);
 		}
 	}
+	}
 	public static class loadsourcelistener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			JFileChooser fileload= new JFileChooser();
 			fileload.setFileFilter(txtfilter);
-			fileload.showOpenDialog(frame);
-			
+			int i=fileload.showOpenDialog(frame);
+			if (i==JFileChooser.APPROVE_OPTION){
 			File filePath = fileload.getSelectedFile();
 			if (filePath==null)
 				return;
@@ -214,11 +219,14 @@ public class guitest {
 			display.result();
 	        }
 	}
+	}
 	public static class serialoutlistener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			JFileChooser fileout= new JFileChooser();
 			fileout.setFileFilter(serfilter);
-			fileout.showSaveDialog(frame);
+			int i=fileout.showSaveDialog(frame);
+			if (i==JFileChooser.APPROVE_OPTION)
+			{
 			File filePath =fileout.getSelectedFile();
 			
 			if (filePath==null)
@@ -230,12 +238,14 @@ public class guitest {
 			filePath=new File(name+".ser");
 			access.serialout(filePath);
 		}
+		}
 	}
 	public static class serialinlistener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			JFileChooser filein= new JFileChooser();
 			filein.setFileFilter(serfilter);
-			filein.showSaveDialog(frame);
+			int i=filein.showSaveDialog(frame);
+			if (i==JFileChooser.APPROVE_OPTION){
 			File filePath =filein.getSelectedFile();
 			if (filePath==null)
 				return;
@@ -244,7 +254,7 @@ public class guitest {
 			display.result();
 		}
 	}
-	
+	}
 	
 	
 	public static class printlistener implements ActionListener{
@@ -271,32 +281,17 @@ public class guitest {
 		    		   return Printable.PAGE_EXISTS;
 		    	   }
 		       });
-		       
-		    	 job.print();
-		    	   
+		    	 job.print();   
 		       }
-		    	   
-		    	   
-		       
-		       
-		       
 		       catch (Exception e){
 		    	   e.printStackTrace();
 		       }
 		}
 	}
-	
-	
-	
-	
 	private static FileNameExtensionFilter txtfilter =new FileNameExtensionFilter("txt文本","txt");
 	private static FileNameExtensionFilter serfilter =new FileNameExtensionFilter("ser序列化文件","ser");
 	private static FileNameExtensionFilter pdffilter =new FileNameExtensionFilter("PDF文档","pdf");
-	
-		
-	
-	
-	
+
 	
 }  
 

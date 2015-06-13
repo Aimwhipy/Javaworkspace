@@ -2,6 +2,8 @@ package test;
 import java.io.*;
 
 public  class  sourcedata implements Serializable {
+
+private static final long serialVersionUID = 1L;
 public  int id;
 public  float shendu;
 public  float duanchang;
